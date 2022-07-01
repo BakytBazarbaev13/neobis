@@ -1,10 +1,4 @@
 
-CREATE SCHEMA IF NOT EXISTS `service` DEFAULT CHARACTER SET utf8 ;
-USE `service` ;
-
--- -----------------------------------------------------
--- Table `service`.`brand`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `service`.`brand` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
@@ -22,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `service`.`phone` (
   `memory` INT NULL,
   `ram` INT NOT NULL,
   `year_of_issue` DATE NOT NULL,
-  `id_brand` INT NOT NULL,
+  `brand_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `brand_idx` (`id_brand` ASC) VISIBLE,
   CONSTRAINT `brand`
@@ -39,7 +33,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `service`.`price` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `price` DECIMAL(10) NOT NULL,
-  `id_phone` INT NOT NULL,
+  `phone_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `phone_idx` (`id_phone` ASC) VISIBLE,
   CONSTRAINT `phone`

@@ -2,19 +2,19 @@ package com.company;
 
 public class Price {
     private int id;
-    private int price;
+    private double price;
     private Phone phone;
 
     public Price(int id){
         this.id=id;
     }
 
-    public Price(int id,int price){
+    public Price(int id,double price){
         this.id=id;
         this.price=price;
     }
 
-    public Price(int id,int price,Phone phone){
+    public Price(int id,double price,Phone phone){
         this(id,price);
         this.phone=phone;
     }
@@ -27,11 +27,11 @@ public class Price {
         return id;
     }
 
-    public void setPrice(int price){
+    public void setPrice(double price){
         this.price=price;
     }
 
-    public int getPrice(){
+    public double getPrice(){
         return price;
     }
 

@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public class Operation {
     private int id;
     private LocalDateTime date_sale;
-    private int cash;
-    private int change;
+    private double cash;
+    private double change;
     private Phone phone;
     private Employees employees;
     private Client client;
@@ -20,26 +20,26 @@ public class Operation {
         this.date_sale=date_sale;
     }
 
-    public Operation(int id,LocalDateTime date_sale,int cash){
+    public Operation(int id, LocalDateTime date_sale, double cash){
         this(id,date_sale);
         this.cash=cash;
     }
 
-    public Operation(int id,LocalDateTime date_sale,int cash,int change){
+    public Operation(int id,LocalDateTime date_sale,double cash,double change){
         this(id,date_sale,cash);
         this.change=change;
     }
 
-    public Operation(int id,LocalDateTime date_sale,int cash,int change,Phone phone){
+    public Operation(int id,LocalDateTime date_sale,double cash,double change,Phone phone){
         this(id,date_sale,cash,change);
         this.phone=phone;
     }
-    public Operation(int id,LocalDateTime date_sale,int cash,int change,Phone phone,Employees employees){
+    public Operation(int id,LocalDateTime date_sale,double cash,double change,Phone phone,Employees employees){
         this(id,date_sale,cash,change,phone);
         this.employees=employees;
     }
 
-    public Operation(int id,LocalDateTime date_sale,int cash,int change,Phone phone,Employees employees,Client client){
+    public Operation(int id,LocalDateTime date_sale,double cash,double change,Phone phone,Employees employees,Client client){
         this(id,date_sale,cash,change,phone,employees);
         this.client=client;
     }
@@ -64,15 +64,15 @@ public class Operation {
         this.cash=cash;
     }
 
-    public int getCash(){
+    public double getCash(){
         return cash;
     }
 
-    public void setChange(int change){
+    public void setChange(double change){
         this.change=change;
     }
 
-    public int getChange(){
+    public double getChange(){
         return change;
     }
 
