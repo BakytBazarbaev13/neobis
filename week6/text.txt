@@ -1,0 +1,56 @@
+1.getAll
+http://localhost:8080/api/v1/getAll
+[
+    {
+        "id": 2,
+        "name": "Bakyt",
+        "address": "Bishkek",
+        "phone_number": "0509116216"
+    },
+    {
+        "id": 3,
+        "name": "Bakyt",
+        "address": "Bishkek",
+        "phone_number": "0509116216"
+    },
+    {
+        "id": 4,
+        "name": "Beka",
+        "address": "Kant",
+        "phone_number": "0505555555"
+    }
+]
+
+2.getId
+http://localhost:8080/api/v1/getId/2
+{
+    "id": 2,
+    "name": "Bakyt",
+    "address": "Bishkek",
+    "phone_number": "0509116216"
+}
+
+3.create
+http://localhost:8080/api/v1/create
+{
+    "id": 5,
+    "name": "Beka",
+    "address": "Kant",
+    "phone_number": "0505555555"
+}
+
+4.update
+http://localhost:8080/api/v1/update
+
+    
+{
+    "id": 5,
+    "name": "Beka11",
+    "address": "Kant",
+    "phone_number": "0505555555"
+}
+    
+
+5.delete
+http://localhost:8080/api/v1/delete/2
+delete
