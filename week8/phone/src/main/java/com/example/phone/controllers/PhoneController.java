@@ -25,7 +25,7 @@ public class PhoneController {
         return phoneService.getById(id);
     }
 
-    @PostMapping("/create")
+    @PostMapping("create")
     public ResponseEntity<?>createPhone(@RequestBody Phone phone){
         return phoneService.savePhone(phone);
     }
