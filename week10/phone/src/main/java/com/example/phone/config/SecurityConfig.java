@@ -5,28 +5,27 @@ import com.example.phone.models.entities.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.Filter;
+
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private JwtFilter jwtFilter;
 
     @Autowired
-    private JwtFilter jwtFilter;
-    @Autowired
-    private UserDetailsService userDetailsService;
+    public SecurityConfig(JwtFilter jwtFilter) {
+        this.jwtFilter = jwtFilter;
+    }
 
     @Bean
-    public BCryptPasswordEncoder encoder(){
+    public static BCryptPasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
     }
 
@@ -37,18 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .disable()
                 .csrf()
                     .disable()
-               /* .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()*/
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-                .antMatchers("/roleAdmin").hasAuthority(Role.ADMIN.name())
                 .antMatchers("/api/v1/user").hasAuthority(Role.USER.name())
-                .antMatchers("/api/v1/auth", "/api/v1/saveUser").permitAll()
-                .anyRequest().authenticated()
-               ;
+                .antMatchers("/api/v1/auth", "/api/v1/reg").permitAll()
+                .and()
+                .addFilterBefore( jwtFilter,UsernamePasswordAuthenticationFilter.class);
       }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-    }
 }

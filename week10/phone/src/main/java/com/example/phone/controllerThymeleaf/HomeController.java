@@ -1,8 +1,8 @@
 package com.example.phone.controllerThymeleaf;
 
-import com.example.phone.dtos.UserDto;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping
@@ -27,9 +27,5 @@ public class HomeController {
         return "admin";
     }
 
-    @PostMapping("/auth")
-    @ResponseBody
-    public String getToken(@RequestBody UserDto userDto){
-        return null;
-    }
+
 }

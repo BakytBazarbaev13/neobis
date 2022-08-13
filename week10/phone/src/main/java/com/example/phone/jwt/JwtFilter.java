@@ -17,10 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 import static io.jsonwebtoken.lang.Strings.hasText;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Component
 @Slf4j
-public class JwtFilter {
+public class JwtFilter extends GenericFilterBean {
+    private final String AUTHORIZATION="Authorization";
 
     private JwtProvider jwtProvider;
     private UserService userService;
@@ -29,7 +29,7 @@ public class JwtFilter {
         this.jwtProvider = jwtProvider;
         this.userService=userService;
     }
-
+    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         log.info("do filter...");

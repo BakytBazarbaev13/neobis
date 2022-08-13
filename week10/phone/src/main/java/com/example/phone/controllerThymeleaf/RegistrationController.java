@@ -1,6 +1,6 @@
 package com.example.phone.controllerThymeleaf;
 
-import com.example.phone.dtos.UserDto;
+import com.example.phone.models.entities.User;
 import com.example.phone.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String saveUser(UserDto user){
+    public String saveUser(User user){
        userService.saveUser(user);
         return "redirect:/login";
     }

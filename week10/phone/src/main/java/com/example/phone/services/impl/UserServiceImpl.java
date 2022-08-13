@@ -1,8 +1,6 @@
 package com.example.phone.services.impl;
 
-import com.example.phone.dtos.UserAuth;
-import com.example.phone.dtos.UserDto;
-import com.example.phone.jwt.JwtProvider;
+import com.example.phone.models.entities.Role;
 import com.example.phone.models.entities.User;
 import com.example.phone.repositories.UserRepo;
 import com.example.phone.services.UserService;
@@ -13,16 +11,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collections;
 
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
-    @Autowired
     private UserRepo userRepo;
-
+    private BCryptPasswordEncoder passwordEncoder;
     @Autowired
-    private JwtProvider jwtProvider;
+    public UserServiceImpl(UserRepo userRepo, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -39,45 +40,23 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public String saveUser(UserDto userDto) {
-        BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
-        User user=userRepo.findByUsername(userDto.getUsername());
-        if (user!=null){
-            throw new UsernameNotFoundException("Это имя пользователя существует");
-        }else {
-            userRepo.save(userDto.toUser(passwordEncoder));
-        }
-
-        return "create";
+    public User saveUser(User user) {
+        user.setRoles(Collections.singleton(Role.USER));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepo.save(user);
     }
 
-    public String getUserAuthenticationToken(UserAuth userAuth){
-        UserAuth authModel = findByUsernameAndPassword(userAuth.getUsername(), userAuth.getPassword());
-        return jwtProvider.generateToken(authModel.getUsername());
+    public User findByUsername(String username){
+        return userRepo.findByUsername(username);
     }
 
-    public UserAuth findByUsername(String username) {
-        User user = userRepo.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Invalid username or password");
-        }
-        UserAuth userModel = new UserAuth();
-        userModel.setUsername(user.getUsername());
-        userModel.setPassword(user.getPassword());
-        return userModel;
-    }
-
-    public UserAuth findByUsernameAndPassword(String username, String password) {
-        BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
-        UserAuth userAuthModel = findByUsername(username);
-        if (userAuthModel != null) {
-            if (passwordEncoder.matches(password, userAuthModel.getPassword())) {
-                return userAuthModel;
+    public User findByUsernameAndPassword(String username,String password){
+        User user=findByUsername(username);
+        if (user != null){
+            if (passwordEncoder.matches(password,user.getPassword())){
+                return user;
             }
         }
         return null;
-    }
-    public List<User> getAllUsers() {
-        return userRepo.findAll();
     }
 }
