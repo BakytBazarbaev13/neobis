@@ -26,6 +26,4 @@ public class HomeController {
     public String forAdmin(){
         return "admin";
     }
-
-
 }
